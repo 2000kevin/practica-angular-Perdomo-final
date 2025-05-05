@@ -1,0 +1,150 @@
+<style>
+  /* Fondo de la página */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Press Start 2P', sans-serif;
+  }
+
+  /* Estilo futurista para las tarjetas */
+  .fixed-card {
+    opacity: 0;
+    transform: translateY(20px);
+    background: linear-gradient(135deg, #00bcd4, #ff4081);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 255, 255, 0.3);
+    animation: fadeInUp 0.6s forwards;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s ease;
+  }
+
+  /* Animación de desvanecimiento y deslizamiento */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Se aplica un retraso a cada tarjeta */
+  .fixed-card:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .fixed-card:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  .fixed-card:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  .fixed-card:nth-child(4) {
+    animation-delay: 0.3s;
+  }
+
+  /* Animación en hover para un efecto más dinámico */
+  .fixed-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.6), 0 0 50px rgba(255, 0, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, #ff4081, #00bcd4);
+    border: 1px solid #00fff9;
+  }
+
+  /* Estilo de la imagen de la tarjeta */
+  .fixed-img {
+    transition: transform 0.3s ease;
+  }
+
+  .fixed-card:hover .fixed-img {
+    transform: scale(1.05);
+  }
+
+  /* Añadir animación a los textos */
+  .fixed-body {
+    transition: all 0.4s ease;
+  }
+
+  .fixed-card:hover .fixed-body {
+    transform: translateY(-5px);
+    color: #ff4081;
+  }
+
+  .fixed-body h5, .fixed-body p {
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
+  }
+</style>
+
+<div class="row mb-3 g-3">
+  <ng-container *ngIf="ricksAll && ricksAll.results && ricksAll.results.length > 0; else noRicks">
+    <div class="col-3" *ngFor="let rick of ricksAll.results">
+      <div class="card fixed-card">
+        <div *ngIf="!CargaImagen">
+          <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+            <g fill="#007bff">
+              <circle cx="50" cy="20" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0s"/>
+              </circle>
+              <circle cx="71" cy="29" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0.1s"/>
+              </circle>
+              <circle cx="80" cy="50" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0.2s"/>
+              </circle>
+              <circle cx="71" cy="71" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0.3s"/>
+              </circle>
+              <circle cx="50" cy="80" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0.4s"/>
+              </circle>
+              <circle cx="29" cy="71" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0.5s"/>
+              </circle>
+              <circle cx="20" cy="50" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0.6s"/>
+              </circle>
+              <circle cx="29" cy="29" r="5">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" begin="0.7s"/>
+              </circle>
+            </g>
+          </svg>
+        </div>
+
+        <img 
+          [src]="rick.image" 
+          class="card-img-top fixed-img" 
+          alt="..."
+          loading="lazy"
+          (load)="CargaImagen=true"
+        >
+
+        <div class="card-body fixed-body">
+          <h5 class="card-title">{{rick.name}}</h5>
+          <p class="card-text">Especie: {{rick.species}}</p>
+          <li class="btn btn-outline-primary" (click)="openModal(rick)">Mas Informacion</li>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noRicks>
+    <div class="col-12">
+      <div class="alert alert-warning" role="alert">
+        No se han encontrado personajes de Rick and Morty.
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<rick-modal></rick-modal>
+
+
+
+
+
+
